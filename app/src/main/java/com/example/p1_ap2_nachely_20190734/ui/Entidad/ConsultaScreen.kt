@@ -14,12 +14,12 @@ fun ConsultaScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = Screen.RegistroScreen.route) }
+                title = { Text(text = "Consulta") }
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navHostController.navigate("")
+                navHostController.navigate(Screen.RegistroScreen.route)
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
             }
