@@ -1,20 +1,20 @@
 package com.example.p1_ap2_nachely_20190734.data
 
 import androidx.room.*
-import com.example.p1_ap2_nachely_20190734.model.Prestamos
+import com.example.p1_ap2_nachely_20190734.model.Prestamo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PrestamosDao {
+interface PrestamoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertar(prestamos: Prestamos)
+    suspend fun insertar(prestamos: Prestamo)
 
     @Delete
-    suspend fun eliminar(prestamos: Prestamos)
+    suspend fun eliminar(prestamos: Prestamo)
 
     @Query("SELECT * FROM Prestamos WHERE prestamoId=:prestamoId")
-    fun buscar(prestamoId : Int) : Flow<Prestamos>
+    fun buscar(prestamoId : Int) : Flow<Prestamo>
 
     @Query("SELECT * FROM Prestamos ORDER BY prestamoId")
-    fun getList() : Flow<List<Prestamos>>
+    fun getList() : Flow<List<Prestamo>>
 }
