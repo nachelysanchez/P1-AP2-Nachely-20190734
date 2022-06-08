@@ -1,4 +1,4 @@
-package com.example.p1_ap2_nachely_20190734.ui.Entidad
+package com.example.p1_ap2_nachely_20190734.ui.Prestamo
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.p1_ap2_nachely_20190734.utils.Screen
 
 @Composable
 fun RegistroScreen(

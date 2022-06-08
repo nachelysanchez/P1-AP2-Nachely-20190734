@@ -1,4 +1,4 @@
-package com.example.p1_ap2_nachely_20190734.ui.Entidad
+package com.example.p1_ap2_nachely_20190734.ui.Prestamo
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
