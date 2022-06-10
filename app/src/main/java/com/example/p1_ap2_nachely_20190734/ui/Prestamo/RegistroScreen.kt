@@ -1,18 +1,18 @@
 package com.example.p1_ap2_nachely_20190734.ui.Prestamo
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.twotone.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.p1_ap2_nachely_20190734.ui.componentes.ValidacionText
 
 @Composable
 fun RegistroScreen(
@@ -29,12 +29,38 @@ fun RegistroScreen(
         mutableStateOf(false)
     }
 
+    val contexto = LocalContext.current
+
     Scaffold(
         topBar= {
             TopAppBar(
                 title = { Text(text = "Registro de Prestamos") }
             )
         },
+
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    deudorError = viewModel.deudor.isBlank()
+                    montoError = viewModel.monto.isBlank()
+                    conceptoError = viewModel.concepto.isBlank()
+
+                    if(!deudorError && !conceptoError && !montoError){
+                        if(viewModel.monto.toFloat() > 0){
+                            viewModel.Guardar()
+                            Toast.makeText(contexto, "El prestamo se guardó correctamente", Toast.LENGTH_LONG).show()
+                            navHostController.navigateUp()
+                        }else{
+                            Toast.makeText(contexto, "El monto no puede ser menor o igual a cero", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            )
+            {
+                Icon(imageVector = Icons.TwoTone.Save, contentDescription = null)
+            }
+        }
+
     ) {
         Column(
             modifier = Modifier.padding(8.dp)
@@ -53,6 +79,10 @@ fun RegistroScreen(
                 },
                 isError = deudorError
             )
+            ValidacionText(estado = deudorError)
+            
+            Spacer(modifier = Modifier.height(40.dp))
+            
             OutlinedTextField(
                 value = viewModel.concepto,
                 onValueChange = {viewModel.concepto = it},
@@ -67,9 +97,12 @@ fun RegistroScreen(
                 },
                 isError = conceptoError
             )
+
+            ValidacionText(estado = conceptoError)
+            Spacer(modifier = Modifier.height(40.dp))
             OutlinedTextField(
                 value = viewModel.monto.toString(),
-                onValueChange = {viewModel.concepto = it},
+                onValueChange = {viewModel.monto = it},
                 modifier = Modifier.fillMaxWidth(),
                 label = {
                     Text(text = "Monto")
@@ -81,61 +114,9 @@ fun RegistroScreen(
                 },
                 isError = montoError
             )
-            //DEUDOR
-            val assistiveElementText = if (deudorError) "Error: Obligatorio" else "*Obligatorio"
-            val assistiveElementColor = if (deudorError) {
-                MaterialTheme.colors.error
-            } else {
-                MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-            }
-
-            //CONCEPTO
-            val conceptoElementText = if (conceptoError) "Error: Obligatorio" else "*Obligatorio"
-            val conceptoElementColor = if (conceptoError) {
-                MaterialTheme.colors.error
-            } else {
-                MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-            }
-
-            //MONTO
-            val montoElementText = if (montoError) "Error: Obligatorio" else "*Obligatorio"
-            val montoElementColor = if (montoError) {
-                MaterialTheme.colors.error
-            } else {
-                MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-            }
-            //MONTO
-            val monto1ElementText = if (viewModel.monto < "0") "Error: No puede ser menor que cero" else "*Obligatorio"
-            val monto1ElementColor = if (viewModel.monto < "0") {
-                MaterialTheme.colors.error
-            } else {
-                MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-            }
-
-
-            OutlinedButton(onClick = {
-                if(!deudorError){
-                    deudorError = viewModel.deudor.isBlank()
-                }
-                else if(!conceptoError){
-                    conceptoError = viewModel.concepto.isBlank()
-                }
-                else if(!montoError){
-                    montoError = viewModel.monto.isBlank()
-                }
-                else if(viewModel.monto < "0"){
-                    montoError = viewModel.monto.isBlank()
-                }
-                else{
-                    viewModel.Guardar()
-
-                    navHostController.navigateUp()
-                }
-
-
-            }) {
-                Text(text = "Guardar")
-            }
+            
+            ValidacionText(estado = montoError)
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 }
