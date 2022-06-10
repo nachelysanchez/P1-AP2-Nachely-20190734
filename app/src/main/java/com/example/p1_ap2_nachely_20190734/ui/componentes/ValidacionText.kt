@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ValidacionText (estado : Boolean){
-    val assistiveElementText = if(estado) "Error: Obligatrio" else "*Obligatorio"
+    val assistiveElementText = if(estado) "Error: Obligatorio" else "*Obligatorio"
     val assitiveElementColor = if(estado){
         MaterialTheme.colors.error
     }else{
